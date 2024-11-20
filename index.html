@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather Assistant</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
 </head>
 <body class="light">
     <div class="container">
@@ -19,9 +20,20 @@
         <main>
             <input type="text" id="city" placeholder="Enter city name">
             <button id="getWeather">Get Weather</button>
+            <button id="getWeatherForLocation">Get Weather for My Location</button>
+
             <div id="weatherResult">
                 <!-- Current weather and 7-day forecast will be displayed here -->
             </div>
+
+            <div id="weatherMap" style="height: 400px; width: 100%;"></div> <!-- Map container -->
+
+            <!-- Time and Date -->
+            <p id="currentTime"></p>
+            <p id="currentDate"></p>
+
+            <!-- Weather Alerts -->
+            <div id="weatherAlerts"></div>
         </main>
         <footer>
             <h5>Powered by Giovanni Nanuseb</h5>
