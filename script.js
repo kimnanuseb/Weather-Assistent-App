@@ -1,8 +1,8 @@
 const apiKey = 'fd679ad0b218886d1a36dc41a919d0e7';
 
-// Theme toggle
+// Theme toggle functionality
 const themeToggle = document.getElementById('themeToggle');
-themeToggle.addEventListener('click', () => {
+themeToggle.addEventListener('change', () => {
     document.body.classList.toggle('dark');
     document.body.classList.toggle('light');
 });
