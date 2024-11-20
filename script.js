@@ -41,8 +41,6 @@ function displayWeather(data) {
 
     const weatherIcon = `https://openweathermap.org/img/wn/${currentWeather.weather[0].icon}.png`;
     const windDirection = getWindDirection(currentWeather.wind.deg);
-    const sunriseTime = new Date(data.city.sunrise * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    const sunsetTime = new Date(data.city.sunset * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
     const currentHTML = `
         <div class="current-weather">
@@ -52,11 +50,31 @@ function displayWeather(data) {
             <p><strong>Condition:</strong> ${currentWeather.weather[0].description}</p>
             <p><strong>Humidity:</strong> ${currentWeather.main.humidity}%</p>
             <p><strong>Wind:</strong> ${currentWeather.wind.speed} m/s (${windDirection})</p>
-            <p><strong>Sunrise:</strong> ${sunriseTime}</p>
-            <p><strong>Sunset:</strong> ${sunsetTime}</p>
         </div>
     `;
 
     const forecastHTML = `
         <div class="forecast">
-            <h3
+            <h3>7-Day Forecast</h3>
+            <div class="forecast-grid">
+                ${forecast
+                    .map(day => `
+                        <div class="forecast-card">
+                            <p>${new Date(day.dt * 1000).toLocaleDateString([], { weekday: 'short' })}</p>
+                            <p>${day.main.temp}°C</p>
+                            <p>${day.weather[0].description}</p>
+                        </div>
+                    `)
+                    .join('')}
+            </div>
+        </div>
+    `;
+
+    document.getElementById('weatherResult').innerHTML = currentHTML + forecastHTML;
+}
+
+function getWindDirection(degree) {
+    const directions = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
+    const index = Math.round((degree % 360) / 45) % 8;
+    return directions[index];
+}
