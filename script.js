@@ -27,7 +27,7 @@ async function getWeather(city) {
 
         if (data.cod === '200') {
             displayWeather(data);
-            updateBackground(data);
+            updateBackground(data); // Apply dynamic background
         } else {
             document.getElementById('weatherResult').innerHTML = `<p>City not found. Please try again.</p>`;
         }
@@ -37,11 +37,10 @@ async function getWeather(city) {
     }
 }
 
-// Function to update the background with gradient colors
+// Function to update the background with gradient colors based on weather
 function updateBackground(data) {
     const weatherCondition = data.list[0].weather[0].main.toLowerCase();
-    document.body.classList.remove('sunny', 'rainy', 'cloudy', 'snowy', 'default'); // Reset background class
-
+    
     // Apply gradient based on weather condition
     if (weatherCondition.includes('clear')) {
         document.body.style.background = 'linear-gradient(to bottom, #ffbb33, #ff6600)'; // Sunny gradient
