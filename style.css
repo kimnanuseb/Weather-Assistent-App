@@ -84,14 +84,44 @@ button:hover {
     color: green;
 }
 
-/* Time and Date */
-#currentTime, #currentDate {
-    margin-top: 20px;
-    font-size: 16px;
-    color: #555;
+/* Weather content */
+.current-weather, .forecast {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
-/* Weather alerts */
+.current-weather {
+    align-items: center;
+}
+
+.header {
+    text-align: center;
+}
+
+.weather-details {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.weather-info {
+    text-align: left;
+}
+
+.forecast-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.forecast-card {
+    background: #f3f3f3;
+    border-radius: 5px;
+    padding: 10px;
+    text-align: center;
+}
+
 .alert {
     background-color: #ffeb3b;
     padding: 10px;
