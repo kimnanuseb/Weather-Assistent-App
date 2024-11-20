@@ -160,6 +160,22 @@ body.dark .forecast-card {
 }
 
 /* Emojis for Weather */
-.sunny { background-image: url('https://www.w3schools.com/w3images/sun.jpg'); }
-.rainy { background-image: url('https://www.w3schools.com/w3images/rain.jpg'); }
-.cloudy { background-image: url('https://www.w3schools.com/w3images/cloudy.jpg'); }
+.sunny {
+    background: #fff5b3;
+    background-image: url('https://www.w3schools.com/w3images/sun.jpg');
+}
+
+.rainy {
+    background: #a1c4fd;
+    background-image: url('https://www.w3schools.com/w3images/rain.jpg');
+}
+
+.cloudy {
+    background: #d7d2cc;
+    background-image: url('https://www.w3schools.com/w3images/cloudy.jpg');
+}
+
+.default {
+    background: #4facfe;
+    background-image: url('https://www.w3schools.com/w3images/sky.jpg');
+}
