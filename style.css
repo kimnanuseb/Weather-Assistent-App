@@ -15,7 +15,6 @@ body {
     transition: background 0.5s ease-in-out, color 0.5s ease-in-out;
 }
 
-/* Light/Dark Theme Styling */
 body.light {
     background: #f5f5f5;
     color: #333;
@@ -158,35 +157,4 @@ body.dark .current-weather, body.dark .forecast {
 
 body.dark .forecast-card {
     background: #666;
-}
-
-/* Emojis for Weather */
-.sunny {
-    background-image: url('https://www.w3schools.com/w3images/sun.jpg');
-    background-size: cover;
-    background-position: center;
-}
-
-.rainy {
-    background-image: url('https://www.w3schools.com/w3images/rain.jpg');
-    background-size: cover;
-    background-position: center;
-}
-
-.cloudy {
-    background-image: url('https://www.w3schools.com/w3images/cloudy.jpg');
-    background-size: cover;
-    background-position: center;
-}
-
-.snowy {
-    background-image: url('https://www.w3schools.com/w3images/snow.jpg');
-    background-size: cover;
-    background-position: center;
-}
-
-.default {
-    background-image: url('https://www.w3schools.com/w3images/sky.jpg');
-    background-size: cover;
-    background-position: center;
 }
