@@ -7,6 +7,37 @@ themeToggle.addEventListener('change', () => {
     document.body.classList.toggle('light');
 });
 
+// Show loading animation while fetching weather
+function showLoading() {
+    document.getElementById('weatherResult').innerHTML = '<div class="loader">Loading...</div>';
+}
+
+// Get weather data for the user's location automatically
+function getWeatherByCoordinates(lat, lon) {
+    const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
+    showLoading(); // Show loading spinner
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            displayWeather(data);
+            updateBackground(data); // Apply background gradient
+            displayTimeAndDate(data); // Display time and date
+            getWeatherAlerts(data.city.name); // Fetch weather alerts for warnings
+        })
+        .catch(error => {
+            console.error('Error fetching weather data:', error);
+            document.getElementById('weatherResult').innerHTML = `<p>There was an error retrieving the data. Please try again later.</p>`;
+        });
+}
+
+// Automatically get the user's location when the page loads
+navigator.geolocation.getCurrentPosition(function (position) {
+    const lat = position.coords.latitude;
+    const lon = position.coords.longitude;
+    getWeatherByCoordinates(lat, lon); // Fetch weather for the user's location
+});
+
 // Get weather data when user clicks "Get Weather"
 document.getElementById('getWeather').addEventListener('click', () => {
     const city = document.getElementById('city').value.trim();
@@ -17,28 +48,10 @@ document.getElementById('getWeather').addEventListener('click', () => {
     }
 });
 
-// Get weather data for the user's location
-function getWeatherByCoordinates(lat, lon) {
-    const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
-    fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            displayWeather(data);
-            updateBackground(data); // Apply background gradient
-            displayTimeAndDate(data); // Fix the time and date format issue
-        });
-}
-
-// Automatically get the user's location and fetch weather data
-navigator.geolocation.getCurrentPosition(function (position) {
-    const lat = position.coords.latitude;
-    const lon = position.coords.longitude;
-    getWeatherByCoordinates(lat, lon); // Fetch weather for the user's location
-});
-
 // Function to fetch weather data from OpenWeatherMap API
 async function getWeather(city) {
     const url = `https://api.openweathermap.org/data/2.5/forecast?q=${encodeURIComponent(city)}&appid=${apiKey}&units=metric`;
+    showLoading(); // Show loading spinner
 
     try {
         const response = await fetch(url);
@@ -48,7 +61,7 @@ async function getWeather(city) {
             displayWeather(data);
             updateBackground(data); // Apply dynamic background
             displayTimeAndDate(data);
-            getWeatherAlerts(city); // Fetch weather alerts
+            getWeatherAlerts(data.city.name); // Fetch weather alerts for warnings
         } else {
             document.getElementById('weatherResult').innerHTML = `<p>City not found. Please try again.</p>`;
         }
@@ -69,9 +82,11 @@ function displayWeather(data) {
     const weatherDescription = currentWeather.weather[0].description.toLowerCase();
     const emoji = getWeatherEmoji(weatherDescription);
 
+    const countryFlag = `https://www.countryflags.io/${data.city.country.toLowerCase()}/flat/64.png`; // Fetch flag based on country code
+
     const currentHTML = `
         <div class="current-weather">
-            <h2>${data.city.name}, ${data.city.country}</h2>
+            <h2>${data.city.name}, ${data.city.country} <img src="${countryFlag}" alt="Flag"></h2>
             <img src="${weatherIcon}" alt="${currentWeather.weather[0].description}">
             <p><strong>Temperature:</strong> ${currentWeather.main.temp}°C</p>
             <p><strong>Condition:</strong> ${emoji} ${currentWeather.weather[0].description}</p>
@@ -148,9 +163,9 @@ function updateBackground(data) {
 
 // Display the current time and date based on the user's location
 function displayTimeAndDate(data) {
-    const date = new Date(data.city.dt * 1000);
-    const localTime = date.toLocaleTimeString();
-    const localDate = date.toLocaleDateString();
+    const date = new Date(data.city.dt * 1000); // Convert the timestamp to a Date object
+    const localTime = date.toLocaleTimeString(); // Format time
+    const localDate = date.toLocaleDateString(); // Format date
     
     document.getElementById('currentTime').innerText = `Current Time: ${localTime}`;
     document.getElementById('currentDate').innerText = `Date: ${localDate}`;
