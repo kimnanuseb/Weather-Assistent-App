@@ -37,22 +37,22 @@ async function getWeather(city) {
     }
 }
 
-// Function to update the background based on weather conditions
+// Function to update the background with gradient colors
 function updateBackground(data) {
     const weatherCondition = data.list[0].weather[0].main.toLowerCase();
     document.body.classList.remove('sunny', 'rainy', 'cloudy', 'snowy', 'default'); // Reset background class
 
-    // Apply background class based on weather condition
+    // Apply gradient based on weather condition
     if (weatherCondition.includes('clear')) {
-        document.body.classList.add('sunny');
+        document.body.style.background = 'linear-gradient(to bottom, #ffbb33, #ff6600)'; // Sunny gradient
     } else if (weatherCondition.includes('rain')) {
-        document.body.classList.add('rainy');
+        document.body.style.background = 'linear-gradient(to bottom, #66b3ff, #0099cc)'; // Rainy gradient
     } else if (weatherCondition.includes('cloud')) {
-        document.body.classList.add('cloudy');
+        document.body.style.background = 'linear-gradient(to bottom, #d6d6d6, #b3c7d6)'; // Cloudy gradient
     } else if (weatherCondition.includes('snow')) {
-        document.body.classList.add('snowy');
+        document.body.style.background = 'linear-gradient(to bottom, #ffffff, #cce0ff)'; // Snowy gradient
     } else {
-        document.body.classList.add('default'); // For other cases (e.g., mist, thunderstorm)
+        document.body.style.background = 'linear-gradient(to bottom, #4facfe, #00f2fe)'; // Default gradient (e.g., mist)
     }
 }
 
