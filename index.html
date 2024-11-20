@@ -10,11 +10,14 @@
     <div class="container">
         <header>
             <h1>Weather Assistant</h1>
-            <button id="themeToggle">Change Theme</button>
+            <!-- Theme toggle switch -->
+            <label class="theme-switch">
+                <input type="checkbox" id="themeToggle">
+                <span class="slider"></span>
+            </label>
         </header>
         <main>
             <input type="text" id="city" placeholder="Enter city name">
-            <div></div>
             <button id="getWeather">Get Weather</button>
             <div id="weatherResult">
                 <!-- Current weather and 7-day forecast will be displayed here -->
