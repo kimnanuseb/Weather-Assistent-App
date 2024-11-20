@@ -25,7 +25,7 @@ function getWeatherByCoordinates(lat, lon) {
         .then(data => {
             displayWeather(data);
             updateBackground(data); // Apply background gradient
-            displayTimeAndDate(data);
+            displayTimeAndDate(data); // Fix the time and date format issue
         });
 }
 
