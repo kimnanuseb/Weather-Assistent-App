@@ -17,6 +17,25 @@ document.getElementById('getWeather').addEventListener('click', () => {
     }
 });
 
+// Get weather data for the user's location
+function getWeatherByCoordinates(lat, lon) {
+    const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            displayWeather(data);
+            updateBackground(data); // Apply background gradient
+            displayTimeAndDate(data);
+        });
+}
+
+// Automatically get the user's location and fetch weather data
+navigator.geolocation.getCurrentPosition(function (position) {
+    const lat = position.coords.latitude;
+    const lon = position.coords.longitude;
+    getWeatherByCoordinates(lat, lon); // Fetch weather for the user's location
+});
+
 // Function to fetch weather data from OpenWeatherMap API
 async function getWeather(city) {
     const url = `https://api.openweathermap.org/data/2.5/forecast?q=${encodeURIComponent(city)}&appid=${apiKey}&units=metric`;
@@ -28,6 +47,8 @@ async function getWeather(city) {
         if (data.cod === '200') {
             displayWeather(data);
             updateBackground(data); // Apply dynamic background
+            displayTimeAndDate(data);
+            getWeatherAlerts(city); // Fetch weather alerts
         } else {
             document.getElementById('weatherResult').innerHTML = `<p>City not found. Please try again.</p>`;
         }
@@ -37,25 +58,7 @@ async function getWeather(city) {
     }
 }
 
-// Function to update the background with gradient colors based on weather
-function updateBackground(data) {
-    const weatherCondition = data.list[0].weather[0].main.toLowerCase();
-    
-    // Apply gradient based on weather condition
-    if (weatherCondition.includes('clear')) {
-        document.body.style.background = 'linear-gradient(to bottom, #ffbb33, #ff6600)'; // Sunny gradient
-    } else if (weatherCondition.includes('rain')) {
-        document.body.style.background = 'linear-gradient(to bottom, #66b3ff, #0099cc)'; // Rainy gradient
-    } else if (weatherCondition.includes('cloud')) {
-        document.body.style.background = 'linear-gradient(to bottom, #d6d6d6, #b3c7d6)'; // Cloudy gradient
-    } else if (weatherCondition.includes('snow')) {
-        document.body.style.background = 'linear-gradient(to bottom, #ffffff, #cce0ff)'; // Snowy gradient
-    } else {
-        document.body.style.background = 'linear-gradient(to bottom, #4facfe, #00f2fe)'; // Default gradient (e.g., mist)
-    }
-}
-
-// Function to display weather details
+// Function to display the current weather details
 function displayWeather(data) {
     const currentWeather = data.list[0];
     const forecast = data.list.filter((_, index) => index % 8 === 0).slice(0, 7);
@@ -123,4 +126,50 @@ function getWeatherEmoji(description) {
     } else {
         return '⛅'; // Default (partly cloudy)
     }
+}
+
+// Function to update the background with gradient colors based on weather
+function updateBackground(data) {
+    const weatherCondition = data.list[0].weather[0].main.toLowerCase();
+
+    // Apply gradient based on weather condition
+    if (weatherCondition.includes('clear')) {
+        document.body.style.background = 'linear-gradient(to bottom, #ffbb33, #ff6600)'; // Sunny gradient
+    } else if (weatherCondition.includes('rain')) {
+        document.body.style.background = 'linear-gradient(to bottom, #66b3ff, #0099cc)'; // Rainy gradient
+    } else if (weatherCondition.includes('cloud')) {
+        document.body.style.background = 'linear-gradient(to bottom, #d6d6d6, #b3c7d6)'; // Cloudy gradient
+    } else if (weatherCondition.includes('snow')) {
+        document.body.style.background = 'linear-gradient(to bottom, #ffffff, #cce0ff)'; // Snowy gradient
+    } else {
+        document.body.style.background = 'linear-gradient(to bottom, #4facfe, #00f2fe)'; // Default gradient (e.g., mist)
+    }
+}
+
+// Display the current time and date based on the user's location
+function displayTimeAndDate(data) {
+    const date = new Date(data.city.dt * 1000);
+    const localTime = date.toLocaleTimeString();
+    const localDate = date.toLocaleDateString();
+    
+    document.getElementById('currentTime').innerText = `Current Time: ${localTime}`;
+    document.getElementById('currentDate').innerText = `Date: ${localDate}`;
+}
+
+// Fetch and display weather alerts
+async function getWeatherAlerts(city) {
+    const url = `https://api.openweathermap.org/data/2.5/alerts?q=${city}&appid=${apiKey}`;
+    const response = await fetch(url);
+    const data = await response.json();
+    
+    if (data.alerts) {
+        displayWeatherAlerts(data.alerts);
+    }
+}
+
+function displayWeatherAlerts(alerts) {
+    alerts.forEach(alert => {
+        const alertHTML = `<div class="alert">${alert.event}: ${alert.description}</div>`;
+        document.getElementById('weatherAlerts').innerHTML += alertHTML;
+    });
 }
