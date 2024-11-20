@@ -1,4 +1,4 @@
-const apiKey = '55b7b2b6cc14a3f0db1c8d830ba965bb'; // Pre-integrated OpenWeatherMap API key
+const apiKey = 'fd679ad0b218886d1a36dc41a919d0e7'; // Pre-integrated OpenWeatherMap API key
 
 document.getElementById('getWeather').addEventListener('click', () => {
     const city = document.getElementById('city').value.trim();
