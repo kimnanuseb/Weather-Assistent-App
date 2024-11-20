@@ -12,6 +12,7 @@ body {
     align-items: center;
     height: 100vh;
     margin: 0;
+    overflow-y: auto;
     transition: background 0.5s ease-in-out, color 0.5s ease-in-out;
 }
 
@@ -26,7 +27,7 @@ body.dark {
 }
 
 .container {
-    width: 95%;
+    width: 90%;
     max-width: 800px;
     background: white;
     border-radius: 10px;
@@ -36,6 +37,7 @@ body.dark {
     flex-direction: column;
     gap: 20px;
     transition: background 0.5s ease-in-out, color 0.5s ease-in-out;
+    overflow-y: auto;
 }
 
 body.dark .container {
@@ -47,6 +49,7 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 20px;
 }
 
 input {
@@ -65,18 +68,32 @@ button {
     border-radius: 5px;
     cursor: pointer;
     transition: background 0.3s;
-    margin: 10px auto; /* Center button */
-    display: block; /* Center button */
+    margin: 10px 0;
+    display: block;
+    width: 100%;
 }
 
 button:hover {
     background: #00574b;
 }
 
-footer {
-    text-align: center;
+/* Specific styles for location button */
+.location-btn {
+    background: transparent;
+    border: 2px solid green;
+    color: green;
+    margin: 10px 0;
+}
+
+.location-btn:hover {
+    background: green;
+    color: white;
+}
+
+/* Time and Date */
+#currentTime, #currentDate {
     margin-top: 20px;
-    font-size: 14px;
+    font-size: 16px;
     color: #555;
 }
 
