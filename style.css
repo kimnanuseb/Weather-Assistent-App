@@ -12,7 +12,6 @@ body {
     align-items: center;
     height: 100vh;
     margin: 0;
-    overflow-y: auto;
     transition: background 0.5s ease-in-out, color 0.5s ease-in-out;
 }
 
@@ -27,7 +26,7 @@ body.dark {
 }
 
 .container {
-    width: 90%;
+    width: 95%;
     max-width: 800px;
     background: white;
     border-radius: 10px;
@@ -37,8 +36,125 @@ body.dark {
     flex-direction: column;
     gap: 20px;
     transition: background 0.5s ease-in-out, color 0.5s ease-in-out;
-    overflow-y: auto;
 }
 
 body.dark .container {
-    background: #
+    background: #444;
+    color: #f5f5f5;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    padding: 10px 20px;
+    background: #00796b;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin: 10px auto; /* Center button */
+    display: block; /* Center button */
+}
+
+button:hover {
+    background: #00574b;
+}
+
+footer {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+    color: #555;
+}
+
+/* Theme toggle switch */
+.theme-switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+}
+
+.theme-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 24px;
+}
+
+.slider:before {
+    position: absolute;
+    content: '';
+    height: 18px;
+    width: 18px;
+    left: 4px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #00796b;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+/* Weather Cards */
+.current-weather, .forecast {
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: background 0.5s ease-in-out;
+}
+
+body.dark .current-weather, body.dark .forecast {
+    background: #555;
+}
+
+.forecast-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+}
+
+.forecast-card {
+    background: #f4f4f4;
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.1);
+    transition: background 0.5s ease-in-out;
+}
+
+body.dark .forecast-card {
+    background: #666;
+}
