@@ -125,3 +125,41 @@ input:checked + .slider {
 input:checked + .slider:before {
     transform: translateX(26px);
 }
+
+/* Weather Cards */
+.current-weather, .forecast {
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: background 0.5s ease-in-out;
+}
+
+body.dark .current-weather, body.dark .forecast {
+    background: #555;
+}
+
+.forecast-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+}
+
+.forecast-card {
+    background: #f4f4f4;
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.1);
+    transition: background 0.5s ease-in-out;
+}
+
+body.dark .forecast-card {
+    background: #666;
+}
+
+/* Emojis for Weather */
+.sunny { background-image: url('https://www.w3schools.com/w3images/sun.jpg'); }
+.rainy { background-image: url('https://www.w3schools.com/w3images/rain.jpg'); }
+.cloudy { background-image: url('https://www.w3schools.com/w3images/cloudy.jpg'); }
