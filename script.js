@@ -1,4 +1,4 @@
-const apiKey = 'fd679ad0b218886d1a36dc41a919d0e7';
+const apiKey = 'fd679ad0b218886d1a36dc41a919d0e7'; // API key
 
 // Theme toggle functionality
 const themeToggle = document.getElementById('themeToggle');
@@ -7,7 +7,7 @@ themeToggle.addEventListener('change', () => {
     document.body.classList.toggle('light');
 });
 
-// Get weather data
+// Get weather data when user clicks "Get Weather"
 document.getElementById('getWeather').addEventListener('click', () => {
     const city = document.getElementById('city').value.trim();
     if (city) {
@@ -17,6 +17,7 @@ document.getElementById('getWeather').addEventListener('click', () => {
     }
 });
 
+// Function to fetch weather data from OpenWeatherMap API
 async function getWeather(city) {
     const url = `https://api.openweathermap.org/data/2.5/forecast?q=${encodeURIComponent(city)}&appid=${apiKey}&units=metric`;
 
@@ -36,9 +37,10 @@ async function getWeather(city) {
     }
 }
 
+// Function to update the background based on weather conditions
 function updateBackground(data) {
     const weatherCondition = data.list[0].weather[0].main.toLowerCase();
-    document.body.classList.remove('sunny', 'rainy', 'cloudy', 'default'); // Reset background class
+    document.body.classList.remove('sunny', 'rainy', 'cloudy', 'snowy', 'default'); // Reset background class
 
     // Apply background class based on weather condition
     if (weatherCondition.includes('clear')) {
@@ -47,11 +49,14 @@ function updateBackground(data) {
         document.body.classList.add('rainy');
     } else if (weatherCondition.includes('cloud')) {
         document.body.classList.add('cloudy');
+    } else if (weatherCondition.includes('snow')) {
+        document.body.classList.add('snowy');
     } else {
-        document.body.classList.add('default'); // For other cases (e.g., snow, mist)
+        document.body.classList.add('default'); // For other cases (e.g., mist, thunderstorm)
     }
 }
 
+// Function to display weather details
 function displayWeather(data) {
     const currentWeather = data.list[0];
     const forecast = data.list.filter((_, index) => index % 8 === 0).slice(0, 7);
@@ -59,12 +64,15 @@ function displayWeather(data) {
     const weatherIcon = `https://openweathermap.org/img/wn/${currentWeather.weather[0].icon}.png`;
     const windDirection = getWindDirection(currentWeather.wind.deg);
 
+    const weatherDescription = currentWeather.weather[0].description.toLowerCase();
+    const emoji = getWeatherEmoji(weatherDescription);
+
     const currentHTML = `
         <div class="current-weather">
             <h2>${data.city.name}, ${data.city.country}</h2>
             <img src="${weatherIcon}" alt="${currentWeather.weather[0].description}">
             <p><strong>Temperature:</strong> ${currentWeather.main.temp}°C</p>
-            <p><strong>Condition:</strong> ${currentWeather.weather[0].description} 🌤️</p>
+            <p><strong>Condition:</strong> ${emoji} ${currentWeather.weather[0].description}</p>
             <p><strong>Humidity:</strong> ${currentWeather.main.humidity}%</p>
             <p><strong>Wind:</strong> ${currentWeather.wind.speed} m/s (${windDirection})</p>
         </div>
@@ -75,13 +83,17 @@ function displayWeather(data) {
             <h3>7-Day Forecast</h3>
             <div class="forecast-grid">
                 ${forecast
-                    .map(day => `
-                        <div class="forecast-card">
-                            <p>${new Date(day.dt * 1000).toLocaleDateString([], { weekday: 'short' })}</p>
-                            <p>${day.main.temp}°C</p>
-                            <p>${day.weather[0].description} 🌦️</p>
-                        </div>
-                    `)
+                    .map(day => {
+                        const dayCondition = day.weather[0].description.toLowerCase();
+                        const forecastEmoji = getWeatherEmoji(dayCondition);
+                        return `
+                            <div class="forecast-card">
+                                <p>${new Date(day.dt * 1000).toLocaleDateString([], { weekday: 'short' })}</p>
+                                <p>${day.main.temp}°C</p>
+                                <p>${forecastEmoji} ${day.weather[0].description}</p>
+                            </div>
+                        `;
+                    })
                     .join('')}
             </div>
         </div>
@@ -90,8 +102,26 @@ function displayWeather(data) {
     document.getElementById('weatherResult').innerHTML = currentHTML + forecastHTML;
 }
 
+// Function to get wind direction from degrees
 function getWindDirection(degree) {
     const directions = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
     const index = Math.round((degree % 360) / 45) % 8;
     return directions[index];
+}
+
+// Function to map weather descriptions to emojis
+function getWeatherEmoji(description) {
+    if (description.includes('clear')) {
+        return '🌞'; // Sun for clear weather
+    } else if (description.includes('rain')) {
+        return '🌧️'; // Cloud with rain for rainy weather
+    } else if (description.includes('cloud')) {
+        return '☁️'; // Cloud for cloudy weather
+    } else if (description.includes('snow')) {
+        return '❄️'; // Snowflake for snowy weather
+    } else if (description.includes('mist')) {
+        return '🌫️'; // Fog/mist for misty weather
+    } else {
+        return '⛅'; // Default (partly cloudy)
+    }
 }
