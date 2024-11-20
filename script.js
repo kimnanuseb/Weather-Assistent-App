@@ -26,12 +26,29 @@ async function getWeather(city) {
 
         if (data.cod === '200') {
             displayWeather(data);
+            updateBackground(data);
         } else {
             document.getElementById('weatherResult').innerHTML = `<p>City not found. Please try again.</p>`;
         }
     } catch (error) {
         console.error('Error fetching weather data:', error);
         document.getElementById('weatherResult').innerHTML = `<p>There was an error retrieving the data. Please try again later.</p>`;
+    }
+}
+
+function updateBackground(data) {
+    const weatherCondition = data.list[0].weather[0].main.toLowerCase();
+    document.body.classList.remove('sunny', 'rainy', 'cloudy', 'default'); // Reset background class
+
+    // Apply background class based on weather condition
+    if (weatherCondition.includes('clear')) {
+        document.body.classList.add('sunny');
+    } else if (weatherCondition.includes('rain')) {
+        document.body.classList.add('rainy');
+    } else if (weatherCondition.includes('cloud')) {
+        document.body.classList.add('cloudy');
+    } else {
+        document.body.classList.add('default'); // For other cases (e.g., snow, mist)
     }
 }
 
@@ -47,7 +64,7 @@ function displayWeather(data) {
             <h2>${data.city.name}, ${data.city.country}</h2>
             <img src="${weatherIcon}" alt="${currentWeather.weather[0].description}">
             <p><strong>Temperature:</strong> ${currentWeather.main.temp}°C</p>
-            <p><strong>Condition:</strong> ${currentWeather.weather[0].description}</p>
+            <p><strong>Condition:</strong> ${currentWeather.weather[0].description} 🌤️</p>
             <p><strong>Humidity:</strong> ${currentWeather.main.humidity}%</p>
             <p><strong>Wind:</strong> ${currentWeather.wind.speed} m/s (${windDirection})</p>
         </div>
@@ -62,7 +79,7 @@ function displayWeather(data) {
                         <div class="forecast-card">
                             <p>${new Date(day.dt * 1000).toLocaleDateString([], { weekday: 'short' })}</p>
                             <p>${day.main.temp}°C</p>
-                            <p>${day.weather[0].description}</p>
+                            <p>${day.weather[0].description} 🌦️</p>
                         </div>
                     `)
                     .join('')}
