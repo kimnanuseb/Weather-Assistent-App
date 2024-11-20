@@ -12,46 +12,47 @@ body {
     align-items: center;
     height: 100vh;
     margin: 0;
-    transition: background 0.5s ease-in-out;
+    transition: background 0.5s ease-in-out, color 0.5s ease-in-out;
 }
 
-/* Dynamic Backgrounds */
-body.sunny {
-    background: linear-gradient(to bottom, #fceabb, #f8b500);
+body.light {
+    background: #f5f5f5;
+    color: #333;
 }
 
-body.rainy {
-    background: linear-gradient(to bottom, #a1c4fd, #c2e9fb);
+body.dark {
+    background: #333;
+    color: #f5f5f5;
 }
 
-body.cloudy {
-    background: linear-gradient(to bottom, #d7d2cc, #304352);
-}
-
-body.default {
-    background: linear-gradient(to bottom, #4facfe, #00f2fe);
-}
-
-/* Container Styling */
 .container {
-    width: 90%;
-    max-width: 400px;
+    width: 95%;
+    max-width: 800px;
     background: white;
     border-radius: 10px;
     padding: 20px;
-    text-align: center;
     box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    transition: background 0.5s ease-in-out, color 0.5s ease-in-out;
 }
 
-h1 {
-    font-size: 24px;
-    margin-bottom: 20px;
+body.dark .container {
+    background: #444;
+    color: #f5f5f5;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 input {
     width: 100%;
     padding: 10px;
-    margin: 10px 0;
+    margin-top: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
 }
@@ -72,12 +73,39 @@ button:hover {
 
 #weatherResult {
     margin-top: 20px;
-    text-align: left;
-    font-size: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
-footer {
-    margin-top: 20px;
-    font-size: 14px;
-    color: #555;
+.current-weather, .forecast {
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: background 0.5s ease-in-out;
+}
+
+body.dark .current-weather, body.dark .forecast {
+    background: #555;
+}
+
+.forecast-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 10px;
+}
+
+.forecast-card {
+    background: #f4f4f4;
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.1);
+    transition: background 0.5s ease-in-out;
+}
+
+body.dark .forecast-card {
+    background: #666;
 }
