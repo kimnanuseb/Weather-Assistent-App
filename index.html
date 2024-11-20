@@ -6,17 +6,19 @@
     <title>Weather Assistant</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="light">
     <div class="container">
-        <h1>Weather Assistant</h1>
-        <input type="text" id="city" placeholder="Enter city name">
-        <button id="getWeather">Get Weather</button>
-        <div id="weatherResult">
-            <!-- Weather details will be dynamically displayed here -->
-        </div>
-        <div id="searchHistory">
-            <!-- Search history buttons will appear here -->
-        </div>
+        <header>
+            <h1>Weather Assistant</h1>
+            <button id="themeToggle">Toggle Theme</button>
+        </header>
+        <main>
+            <input type="text" id="city" placeholder="Enter city name">
+            <button id="getWeather">Get Weather</button>
+            <div id="weatherResult">
+                <!-- Current weather and 7-day forecast will be displayed here -->
+            </div>
+        </main>
         <footer>
             <h5>Powered by Giovanni Nanuseb</h5>
         </footer>
