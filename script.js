@@ -22,7 +22,6 @@ function getWeatherByCoordinates(lat, lon) {
         .then(data => {
             displayWeather(data);
             updateBackground(data); // Apply background gradient
-            displayTimeAndDate(data); // Display time and date
             getWeatherAlerts(data.city.name); // Fetch weather alerts for warnings
         })
         .catch(error => {
@@ -60,7 +59,6 @@ async function getWeather(city) {
         if (data.cod === '200') {
             displayWeather(data);
             updateBackground(data); // Apply dynamic background
-            displayTimeAndDate(data);
             getWeatherAlerts(data.city.name); // Fetch weather alerts for warnings
         } else {
             document.getElementById('weatherResult').innerHTML = `<p>City not found. Please try again.</p>`;
@@ -74,35 +72,38 @@ async function getWeather(city) {
 // Function to display the current weather details
 function displayWeather(data) {
     const currentWeather = data.list[0];
-    const forecast = data.list.filter((_, index) => index % 8 === 0).slice(0, 7);
 
+    // Get weather icon and country flag
     const weatherIcon = `https://openweathermap.org/img/wn/${currentWeather.weather[0].icon}.png`;
-    const windDirection = getWindDirection(currentWeather.wind.deg);
-
-    const weatherDescription = currentWeather.weather[0].description.toLowerCase();
-    const emoji = getWeatherEmoji(weatherDescription);
-
     const countryFlag = `https://www.countryflags.io/${data.city.country.toLowerCase()}/flat/64.png`; // Fetch flag based on country code
 
+    // Grouping the weather details logically
     const currentHTML = `
         <div class="current-weather">
-            <h2>${data.city.name}, ${data.city.country} <img src="${countryFlag}" alt="Flag"></h2>
-            <img src="${weatherIcon}" alt="${currentWeather.weather[0].description}">
-            <p><strong>Temperature:</strong> ${currentWeather.main.temp}°C</p>
-            <p><strong>Condition:</strong> ${emoji} ${currentWeather.weather[0].description}</p>
-            <p><strong>Humidity:</strong> ${currentWeather.main.humidity}%</p>
-            <p><strong>Wind:</strong> ${currentWeather.wind.speed} m/s (${windDirection})</p>
+            <div class="header">
+                <h2>${data.city.name}, ${data.city.country} <img src="${countryFlag}" alt="Flag"></h2>
+            </div>
+            <div class="weather-details">
+                <img src="${weatherIcon}" alt="${currentWeather.weather[0].description}">
+                <div class="weather-info">
+                    <p><strong>Temperature:</strong> ${currentWeather.main.temp}°C</p>
+                    <p><strong>Condition:</strong> ${currentWeather.weather[0].description}</p>
+                    <p><strong>Humidity:</strong> ${currentWeather.main.humidity}%</p>
+                    <p><strong>Wind:</strong> ${currentWeather.wind.speed} m/s</p>
+                </div>
+            </div>
         </div>
     `;
 
+    // 7-day forecast (grouped and organized)
+    const forecast = data.list.filter((_, index) => index % 8 === 0).slice(0, 7);
     const forecastHTML = `
         <div class="forecast">
             <h3>7-Day Forecast</h3>
             <div class="forecast-grid">
                 ${forecast
                     .map(day => {
-                        const dayCondition = day.weather[0].description.toLowerCase();
-                        const forecastEmoji = getWeatherEmoji(dayCondition);
+                        const forecastEmoji = getWeatherEmoji(day.weather[0].description);
                         return `
                             <div class="forecast-card">
                                 <p>${new Date(day.dt * 1000).toLocaleDateString([], { weekday: 'short' })}</p>
@@ -117,13 +118,6 @@ function displayWeather(data) {
     `;
 
     document.getElementById('weatherResult').innerHTML = currentHTML + forecastHTML;
-}
-
-// Function to get wind direction from degrees
-function getWindDirection(degree) {
-    const directions = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
-    const index = Math.round((degree % 360) / 45) % 8;
-    return directions[index];
 }
 
 // Function to map weather descriptions to emojis
@@ -159,16 +153,6 @@ function updateBackground(data) {
     } else {
         document.body.style.background = 'linear-gradient(to bottom, #4facfe, #00f2fe)'; // Default gradient (e.g., mist)
     }
-}
-
-// Display the current time and date based on the user's location
-function displayTimeAndDate(data) {
-    const date = new Date(data.city.dt * 1000); // Convert the timestamp to a Date object
-    const localTime = date.toLocaleTimeString(); // Format time
-    const localDate = date.toLocaleDateString(); // Format date
-    
-    document.getElementById('currentTime').innerText = `Current Time: ${localTime}`;
-    document.getElementById('currentDate').innerText = `Date: ${localDate}`;
 }
 
 // Fetch and display weather alerts
