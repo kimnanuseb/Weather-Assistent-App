@@ -73,16 +73,12 @@ async function getWeather(city) {
 function displayWeather(data) {
     const currentWeather = data.list[0];
 
-    // Get weather icon and country flag
+    // Get weather icon and group the weather details
     const weatherIcon = `https://openweathermap.org/img/wn/${currentWeather.weather[0].icon}.png`;
-    const countryFlag = `https://www.countryflags.io/${data.city.country.toLowerCase()}/flat/64.png`; // Fetch flag based on country code
 
-    // Grouping the weather details logically
     const currentHTML = `
         <div class="current-weather">
-            <div class="header">
-                <h2>${data.city.name}, ${data.city.country} <img src="${countryFlag}" alt="Flag"></h2>
-            </div>
+            <h2 class="city-name">${data.city.name}, ${data.city.country}</h2>
             <div class="weather-details">
                 <img src="${weatherIcon}" alt="${currentWeather.weather[0].description}">
                 <div class="weather-info">
