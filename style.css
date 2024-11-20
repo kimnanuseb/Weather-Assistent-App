@@ -77,17 +77,11 @@ button:hover {
     background: #00574b;
 }
 
-/* Specific styles for location button */
-.location-btn {
+/* Green outline for location button */
+.get-weather-btn {
     background: transparent;
     border: 2px solid green;
     color: green;
-    margin: 10px 0;
-}
-
-.location-btn:hover {
-    background: green;
-    color: white;
 }
 
 /* Time and Date */
@@ -103,6 +97,21 @@ button:hover {
     padding: 10px;
     border-radius: 5px;
     margin: 10px 0;
+}
+
+/* Loader animation */
+.loader {
+    border: 8px solid #f3f3f3; 
+    border-top: 8px solid #00796b;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
 /* Theme toggle switch */
