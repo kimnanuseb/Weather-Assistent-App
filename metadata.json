@@ -1,0 +1,7 @@
+{
+  "name": "Giovanni's Weather Assistant",
+  "description": "A premium, glassmorphic weather dashboard featuring real-time data, interactive charts, and dynamic atmospheric backgrounds.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}
