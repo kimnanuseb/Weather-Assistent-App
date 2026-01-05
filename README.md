@@ -1,42 +1,20 @@
-Weather Assistant
-Weather Assistant is a straightforward weather application that allows users to retrieve real-time weather details by entering a city name. It is designed to be clean, responsive, and easy to use, showcasing the integration of JavaScript and the OpenWeatherMap API.
+<div align="center">
+<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+</div>
 
-Features
-🌦 Real-time weather updates, including temperature, conditions, humidity, and wind speed.
+# Run and deploy your AI Studio app
 
-🔍 Simple and intuitive interface with a responsive design for all devices.
+This contains everything you need to run your app locally.
 
-💡 Powered by the OpenWeatherMap API for accurate and up-to-date weather data.
+View your app in AI Studio: https://ai.studio/apps/drive/1ELrrB9k2P-cuH1LSDyLAqR-PNvyB30g2
 
+## Run Locally
 
-Usage
-Enter the name of a city in the input field and click "Get Weather."
-View current weather details displayed dynamically.
-Technologies Used
-
-HTML5: Markup structure.
-
-CSS3: Responsive styling.
-
-JavaScript (ES6+): Dynamic content and API integration.
-
-OpenWeatherMap API: Fetches real-time weather data.
+**Prerequisites:**  Node.js
 
 
-
-Live site
-
-Weather Assistant site (https://kimnanuseb.github.io/Weather-Assistent-App/)
-
-
-
-Credits
-
-Developer: Giovanni Nanuseb
-
-API Provider: OpenWeatherMap
-
-License
-
-
-This project is licensed under the MIT License.
+1. Install dependencies:
+   `npm install`
+2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
+3. Run the app:
+   `npm run dev`
